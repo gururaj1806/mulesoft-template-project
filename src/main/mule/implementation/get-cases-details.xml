@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="get-cases-details-flow" doc:id="c4a12755-0ad0-425d-8cf4-22dc663e7fb1" >
+		<logger level="INFO" doc:name="Log Flow Start" doc:id="cbc85cd3-dffa-4818-82ea-721e25046ad0" message='#[flow.name ++ " stared."]'/>
+		<logger level="INFO" doc:name="Add Business Logic Msg" doc:id="8958aaf4-50ed-4db1-9d65-e8347325b33c" message="Incorporate Your Business Logic Here.. Added Sample Response Just for Demo." />
+		<ee:transform doc:name="Cases Response" doc:id="f2fc1d02-6d76-49d1-ac10-142cd57e3486">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[{
+  id: "123987",
+  caseNumber: "150",
+  subject: "Messaging Application Taking Time to Respond.",
+  createdDate: "2024-03-03",
+  creationReason: "User Experience Issues",
+  comments: "Unable to Send Messages Quickly",
+  customerName: "Max Mule",
+  contactEmail: "max.mule@example.com",
+  contactPhone: "1234567899",
+  customerAddress: "Maharashtra , India",
+  isEscalated: true,
+  language: "English",
+  status: "Active"
+}]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Log Flow End" doc:id="924dc1d9-3e75-4c3a-8a40-38d7b0e16954" message='#[flow.name ++ " ended."]'/>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="9900052a-8439-417c-8672-156205362664" >
+				<logger level="INFO" doc:name="Log Error Msg" doc:id="1383adb9-32a6-4cd7-82fc-119993ad55ad" message="Mention your Error Message in Case of Any Errors while Flow Execution." />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
